@@ -1,5 +1,13 @@
 .App {
   text-align: center;
+  background-color: rgb(199, 209, 197);
+  min-height: 100vh;
+  /* display: flex; */
+  /* flex */
+}
+
+.main-container {
+  display: flex;
 }
 
 .App-logo {
@@ -15,8 +23,8 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
+  min-height: 10vh;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -24,8 +32,106 @@
   color: white;
 }
 
+.records-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #b2bcd1;
+  /* min-height: 100vh; */
+  width: 80%;
+  margin: 0 auto;
+}
+
+.record {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.record .record-name,
+.input-container .name-input {
+  flex-basis: 50%;
+  display: flex;
+}
+
+.record .record-price,
+.input-container .price-input {
+  flex-basis: 20%;
+}
+
+.record .record-name span {
+  font-size: 20px;
+  color: #40495c;
+  text-align: left;
+}
+
+.record .record-price span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #12203d;
+}
+
+.input-container {
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.input-container input {
+  padding: 10px;
+  margin: 10px;
+  line-height: 20px;
+  font-size: 20px;
+}
+
 .App-link {
   color: #61dafb;
+}
+
+.selected {
+  background-color: #40495c;
+  color: "#ffffff";
+  /* margin: 5px; */
+}
+
+.selected span {
+  /* padding: 10px; */
+
+  border-bottom: 1px solid #282c34;
+}
+
+.options-container {
+  padding: 20px;
+  width: 10%;
+  display: flex;
+  flex-direction: column;
+  background-color: #7773b1;
+  min-height: 100vh;
+  /* justify-content: space-between; */
+}
+
+.options-container .option {
+  margin: 10px 0;
+}
+
+.option button {
+  border-radius: 10px;
+}
+.option span {
+  font-size: 16px;
+  color: #2e63d1;
+}
+
+.option button:hover {
+  background-color: #00fa00;
+  box-shadow: 3px 3px 4px 2px #77de777d;
+  transition: all 1s;
+}
+
+.pages-container {
+  width: 90%;
+  margin-top: 10vh;
 }
 
 @keyframes App-logo-spin {
