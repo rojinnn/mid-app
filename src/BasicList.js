@@ -1,8 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Particular from "./ParticularItem";
 import { sampleRecords as sample} from "./constants";
+import { Context as AuthContext } from "./context/UserContext";
 
 function List() {
   const [records, setRecords] = useState(sample);
@@ -18,6 +19,8 @@ function List() {
 
   const [selectedRecordId, setSelectedRecordId] = useState(null);
 
+  const { data } = useContext(AuthContext);
+  
   useEffect(() => {
     const recordsStored = localStorage.getItem('records-stored');
     if(!!recordsStored) {
@@ -118,6 +121,7 @@ function List() {
 
   return (
     <div className="basic-list">
+      <h2>Basic List</h2>
       <div className="records-container">
         {records.map((r, i) => (
           <Particular
@@ -173,6 +177,10 @@ function List() {
             </button>
           )}
         </div>
+      </div>
+      <div className="">
+        <span>Prepared By:</span>
+        <span>{data.userName}</span>
       </div>
     </div>
   );

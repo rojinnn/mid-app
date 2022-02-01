@@ -112,19 +112,33 @@
 }
 
 .options-container .option {
-  margin: 10px 0;
+  margin: 15px 0;
+  padding: 5px;
+  border-radius: 5px;
 }
 
+.option:hover {
+  background-color: #00fa00;
+  transition: all 0.8s;
+}
 .option button {
   border-radius: 10px;
+}
+.option a {
+  text-decoration: none;
+}
+.option.current {
+  background-color: #a6e875;
+  box-shadow: #00fa00 1px 1px;
 }
 .option span {
   font-size: 16px;
   color: #2e63d1;
+  text-decoration: none;
 }
 
 .option button:hover {
-  background-color: #00fa00;
+  background-color: #39f039ea;
   box-shadow: 3px 3px 4px 2px #77de777d;
   transition: all 1s;
 }

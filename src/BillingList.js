@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Particular from "./ParticularItem";
 import { sampleRecords } from "./constants";
-
+import { Context as AuthContext, useAuth } from "./context/UserContext";
 //component of records i.e particular starts here
 
 //component of records i.e particular ends here
@@ -22,6 +22,8 @@ function Billinglist() {
 
   // console.log(records);
   // console.log(setRecords);
+  // const { data } = useContext(AuthContext);
+  const { data } = useAuth();
 
   useEffect(() => {
     const productsStored = localStorage.getItem("records-stored");
@@ -61,6 +63,7 @@ function Billinglist() {
 
   return (
     <div className="billing-list">
+      <h2>Billing List</h2>
       <div className="records-container">
         {entry.map((en) => (
           <div key={en.product?.id} className="record">
@@ -237,7 +240,12 @@ function Billinglist() {
               <span>Cancel</span>
             </button>
           )} */}
+
         </div>
+      </div>
+      <div className="">
+        <span>Prepared By:</span>
+        <span>{data?.userName}</span>
       </div>
     </div>
   );
