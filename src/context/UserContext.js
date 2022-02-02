@@ -4,7 +4,7 @@ const Context = createContext();
 
 const initialState = {
   userName: "Nikesh",
-  user: {},
+  user: null,
   type: "",
   role: "admin",
   initialLoading: true,
@@ -14,6 +14,11 @@ const authReducer = (state, action) => {
   switch (action.type) {
     case "UPDATE_USER_NAME":
       return { ...state, userName: action.payload };
+    case "LOAD_USER":
+      return { ...state, user: action.payload };
+    case "LOGOUT_USER":
+      return { ...state, user: null };
+
     default:
       return state;
   }
@@ -26,8 +31,17 @@ const Provider = ({ children }) => {
     dispatch({ type: "UPDATE_USER_NAME", payload: data });
   };
 
+  const loadUser = (data) => {
+    dispatch({ type: "LOAD_USER", payload: data });
+  };
+
+  const logoutUser = (data) => {
+    dispatch({ type: "LOGOUT_USER", payload: data });
+  };
   return (
-    <Context.Provider value={{ data: authState, updateUserName }}>
+    <Context.Provider
+      value={{ data: authState, updateUserName, loadUser, logoutUser }}
+    >
       {children}
     </Context.Provider>
   );
