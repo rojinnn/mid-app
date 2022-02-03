@@ -6,7 +6,7 @@ import { useAuth } from "../context/UserContext";
 const SettingsPage =() => {
 
     const { updateUserName,logoutUser, data: { userName },data } = useAuth();
-    const [username, setUsername] = useState(userName);
+    const [username, setUsername] = useState(((data||{}).user||{}).name||'');
     const navigate= useNavigate();
 
     const handleUpdateProfile = e => {

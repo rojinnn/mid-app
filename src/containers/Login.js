@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
 
@@ -19,6 +20,43 @@ const Login = () => {
     }
   };
 
+  const getMemes = async() => {
+    try {
+    const response = await axios({
+      url: 'https://api.imgflip.com/get_memes',
+      method: 'GET',
+    });
+    console.log(response);
+  }catch(err) {
+    console.log(err, 'error');
+  }
+  };
+
+  const login = async(e) => {
+    try {
+      const res = await axios({
+        url: 'http://167.71.226.245:3005/api/auth/login',
+        method: 'POST',
+        data: {
+            userName: username,
+            password,
+            userRole: 'ADMIN',
+        }
+      });
+      // const
+      console.log(res, 'res');
+      loadUser(res.data);
+    }catch(err) {
+      console.log(err, 'err');
+    }
+  };
+  const onClickButton = e => {
+    getMemes();
+  };
+  useEffect(() => {
+    getMemes();
+  },[]);
+
   return (
     <div className="">
       <input value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -30,8 +68,11 @@ const Login = () => {
       <button onClick={(e) => setShow(!show)}>
         <span >{show ? "hide" : "show"}</span>
       </button>
-      <button onClick={handleLogin}>
+      <button onClick={login}>
         <span>login</span>
+      </button>
+      <button onClick={onClickButton}>
+        <span>Get Memes</span>
       </button>
     </div>
   );

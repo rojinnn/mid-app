@@ -33,9 +33,12 @@ const Provider = ({ children }) => {
 
   const loadUser = (data) => {
     dispatch({ type: "LOAD_USER", payload: data });
+    localStorage.setItem('access-token',data.token);
+    localStorage.setItem('userLoggedIn',JSON.stringify(data));
   };
 
   const logoutUser = (data) => {
+    localStorage.setItem('userLoggedIn',null);
     dispatch({ type: "LOGOUT_USER", payload: data });
   };
   return (
