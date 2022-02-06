@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
-
+import { login as loginApi } from "../apis";
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -20,42 +20,39 @@ const Login = () => {
     }
   };
 
-  const getMemes = async() => {
+  const getMemes = async () => {
     try {
-    const response = await axios({
-      url: 'https://api.imgflip.com/get_memes',
-      method: 'GET',
-    });
-    console.log(response);
-  }catch(err) {
-    console.log(err, 'error');
-  }
-  };
-
-  const login = async(e) => {
-    try {
-      const res = await axios({
-        url: 'http://167.71.226.245:3005/api/auth/login',
-        method: 'POST',
-        data: {
-            userName: username,
-            password,
-            userRole: 'ADMIN',
-        }
+      const response = await axios({
+        url: "https://api.imgflip.com/get_memes",
+        method: "GET",
       });
-      // const
-      console.log(res, 'res');
-      loadUser(res.data);
-    }catch(err) {
-      console.log(err, 'err');
+      console.log(response);
+    } catch (err) {
+      console.log(err, "error");
     }
   };
-  const onClickButton = e => {
+
+  const login = async (e) => {
+    try {
+      const res = await loginApi({
+        userName: username,
+        password,
+        userRole: "ADMIN",
+      });
+
+      // const
+      console.log(res, "res");
+      loadUser(res.data);
+    } catch (err) {
+      console.log(err, "err");
+    }
+  };
+  const onClickButton = (e) => {
     getMemes();
   };
   useEffect(() => {
     getMemes();
-  },[]);
+  }, []);
 
   return (
     <div className="">
@@ -66,7 +63,7 @@ const Login = () => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button onClick={(e) => setShow(!show)}>
-        <span >{show ? "hide" : "show"}</span>
+        <span>{show ? "hide" : "show"}</span>
       </button>
       <button onClick={login}>
         <span>login</span>
