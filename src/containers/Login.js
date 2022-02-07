@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
 import { login as loginApi } from "../apis";
+
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -10,12 +11,16 @@ const Login = () => {
 
   const navigate = useNavigate();
 
-  const { data, loadUser } = useAuth();
+  const {
+    data,
+    loadUser,
+    login: loginAction,
+    loginSuccess,
+    loginError,
+  } = useAuth();
 
   const handleLogin = (e) => {
     if (username === "anisha" && password === "anisha123") {
-      // navigate("/home");
-      // console.log(navigate);
       loadUser({ username });
     }
   };
@@ -34,17 +39,20 @@ const Login = () => {
 
   const login = async (e) => {
     try {
+      loginAction();
       const res = await loginApi({
         userName: username,
         password,
         userRole: "ADMIN",
       });
-
+      if (res.status === 200) {
+        loginSuccess(res.data);
+        console.log("login sucessful");
+      }
       // const
-      console.log(res, "res");
-      loadUser(res.data);
     } catch (err) {
       console.log(err, "err");
+      loginError(err);
     }
   };
   const onClickButton = (e) => {
@@ -66,11 +74,12 @@ const Login = () => {
         <span>{show ? "hide" : "show"}</span>
       </button>
       <button onClick={login}>
-        <span>login</span>
+        <span>{data.loggingIn ? "loggging In..." : "login"}</span>
       </button>
       <button onClick={onClickButton}>
         <span>Get Memes</span>
       </button>
+      <span>{data.loginError && "ERRROR"}</span>
     </div>
   );
 };
