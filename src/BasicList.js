@@ -2,9 +2,9 @@ import React, { useState, useRef, useEffect, useContext } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Particular from "./ParticularItem";
-import { sampleRecords as sample} from "./constants";
+import { sampleRecords as sample } from "./constants";
 import { Context as AuthContext } from "./context/UserContext";
-
+import { getProducts } from "./apis";
 function List() {
   const [records, setRecords] = useState(sample);
 
@@ -20,13 +20,25 @@ function List() {
   const [selectedRecordId, setSelectedRecordId] = useState(null);
 
   const { data } = useContext(AuthContext);
+  const products = async (e) => {
+    try {
+      const res = await getProducts({ });
+
+      // const
+      console.log(res, "res");
+      // loadUser(res.data);
+    } catch (err) {
+      console.log(err, "err");
+    }
+  };
   
   useEffect(() => {
-    const recordsStored = localStorage.getItem('records-stored');
-    if(!!recordsStored) {
+    const recordsStored = localStorage.getItem("records-stored");
+    if (!!recordsStored) {
       setRecords(JSON.parse(recordsStored));
     }
-  },[])
+    products();
+  }, []);
 
   useEffect(() => {
     setTotal(records.reduce((a, v) => a + +v.price, 0));
@@ -48,23 +60,29 @@ function List() {
         price: newRecordPrice,
       },
     ]);
-    localStorage.setItem('records-stored',JSON.stringify([
-      ...records,
-      {
-        id: new Date().getMilliseconds(),
-        name: newRecordName,
-        price: newRecordPrice,
-      },
-    ]));
+    localStorage.setItem(
+      "records-stored",
+      JSON.stringify([
+        ...records,
+        {
+          id: new Date().getMilliseconds(),
+          name: newRecordName,
+          price: newRecordPrice,
+        },
+      ])
+    );
 
     setNewRecordName("");
     setNewRecordPrice(0);
     recordNameRef.current.focus();
   };
-
+ 
   const removeRecord = (e, name) => {
     setRecords(records.filter((x) => x.name !== name));
-    localStorage.setItem('records-stored',JSON.stringify(records.filter((x) => x.name !== name)));
+    localStorage.setItem(
+      "records-stored",
+      JSON.stringify(records.filter((x) => x.name !== name))
+    );
   };
 
   const handleEditRecord = (e, name, price, id) => {
@@ -92,16 +110,21 @@ function List() {
         return r;
       })
     );
-    localStorage.setItem('records-stored', JSON.stringify(records.map((r) => {
-      if (r.id === id) {
-        return {
-          ...r,
-          name: newRecordName,
-          price: newRecordPrice,
-        };
-      }
-      return r;
-    })));
+    localStorage.setItem(
+      "records-stored",
+      JSON.stringify(
+        records.map((r) => {
+          if (r.id === id) {
+            return {
+              ...r,
+              name: newRecordName,
+              price: newRecordPrice,
+            };
+          }
+          return r;
+        })
+      )
+    );
     setEditMode(false);
     // setNewRecordName('');
     // setNewRecordPr('');
