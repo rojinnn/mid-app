@@ -3,6 +3,7 @@ import App from "./App";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./containers/Login";
 import { useAuth } from "./context/UserContext";
+import Register from "./containers/Register";
 
 const MainApp = () => {
   const {
@@ -24,6 +25,7 @@ const MainApp = () => {
     <BrowserRouter>
       <Routes>
         {!user && <Route path="/" element={<Login />} />}
+        {!user && <Route path="/register" element={<Register />} />}
         <Route path="/" element={<App />} />
         <Route path="*" element={<App />} />
       </Routes>

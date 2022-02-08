@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
 
 const Login = () => {
@@ -74,6 +74,9 @@ const Login = () => {
       <button onClick={onClickButton}>
         <span>Get Memes</span>
       </button>
+      <Link to="/register">
+        <span> Register</span>
+      </Link>
     </div>
   );
 };
