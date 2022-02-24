@@ -4,11 +4,15 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider as AuthProvider } from "./context/UserContext";
 import MainApp from "./MainApp";
+import { Provider } from "react-redux";
+import store from "./store/store";
 
 ReactDOM.render(
-  <AuthProvider>
-    <MainApp />
-  </AuthProvider>,
+  <Provider store={store}>
+    <AuthProvider>
+      <MainApp />
+    </AuthProvider>
+  </Provider>,
 
   document.getElementById("root")
 );

@@ -25,7 +25,7 @@ const routeOptions = [
 function App(props) {
   const params = useParams();
   // const {*} = params;
-  const currentPath = "/" + params["*"];
+  const currentPath = "/" + (params["*"] || 'basic');
   const {
     data: { role },
   } = useAuth();
@@ -58,6 +58,7 @@ function App(props) {
         <div className="pages-container">
           {/* <AuthProvider> */}
           <Routes>
+            <Route exact path='/' element={<BasicList />} />
             <Route exact path="/home/billing" element={<BillingList />} />
             <Route exact path="/billing" element={<BillingList />} />
             <Route exact path="/basic" element={<BasicList />} />

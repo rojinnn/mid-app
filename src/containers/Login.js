@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/UserContext";
 import { login as loginApi } from "../apis";
+import { useDispatch, useSelector } from "react-redux";
+import { loginActionn, loginErrorActionn, loginSuccessActionn } from "../store/reducers/userSlice";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -10,6 +12,8 @@ const Login = () => {
   const [show, setShow] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {  user, requestingLogin, loginError: errror } = useSelector(state => state.auth);
 
   const {
     data,
@@ -19,6 +23,7 @@ const Login = () => {
     loginError,
   } = useAuth();
 
+  console.log(user, 'check redux user value');
   const handleLogin = (e) => {
     if (username === "anisha" && password === "anisha123") {
       loadUser({ username });
@@ -39,19 +44,23 @@ const Login = () => {
 
   const login = async (e) => {
     try {
-      loginAction();
+      // loginAction();
+      dispatch(loginActionn());
       const res = await loginApi({
         userName: username,
         password,
         userRole: "ADMIN",
       });
       if (res.status === 200) {
-        loginSuccess(res.data);
+        // loginSuccess(res.data);
+        dispatch(loginSuccessActionn(res.data));
+        localStorage.setItem('userLoggedIn', JSON.stringify(res.data))
         console.log("login sucessful");
       }
       // const
     } catch (err) {
       console.log(err, "err");
+      dispatch(loginErrorActionn(err));
       loginError(err);
     }
   };
@@ -74,7 +83,7 @@ const Login = () => {
         <span>{show ? "hide" : "show"}</span>
       </button>
       <button onClick={login}>
-        <span>{data.loggingIn ? "loggging In..." : "login"}</span>
+        <span>{requestingLogin ? "loggging In..." : "login"}</span>
       </button>
       <button onClick={onClickButton}>
         <span>Get Memes</span>
@@ -82,7 +91,7 @@ const Login = () => {
       <Link to="/register">
         <span> Register</span>
       </Link>
-      <span>{data.loginError && "ERRROR"}</span>
+      <span>{errror.message || ""}</span>
     </div>
   );
 };
